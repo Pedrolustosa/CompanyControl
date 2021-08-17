@@ -2,7 +2,7 @@ using MongoDB.Driver;
 using Microsoft.AspNetCore.Mvc;
 using CompanyControl_API.Models;
 using Microsoft.Extensions.Configuration;
-
+using System.Linq;
 
 namespace CompanyControl_API.Controllers
 {
@@ -25,6 +25,20 @@ namespace CompanyControl_API.Controllers
             var dbList = dbClient.GetDatabase("testDB").GetCollection<Department>("Department").AsQueryable();
 
             return new JsonResult(dbList);
+        }
+
+        [HttpPost]
+        public JsonResult Post(Department department)
+        {
+            MongoClient dbClient = new MongoClient(_configuration.GetConnectionString("EmployeesAppCon"));
+
+            int lastDepartmentId = dbClient.GetDatabase("testDB").GetCollection<Department>("Department").AsQueryable().Count();
+            department.DepartmentId = lastDepartmentId + 1;
+
+            dbClient.GetDatabase("testDB").GetCollection<Department>("Department").InsertOne(department);
+
+            return new JsonResult("Departamento criado");
+
         }
     }
 }
