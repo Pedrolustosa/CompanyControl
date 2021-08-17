@@ -40,5 +40,20 @@ namespace CompanyControl_API.Controllers
             return new JsonResult("Departamento criado");
 
         }
+
+        [HttpPut]
+        public JsonResult Put(Department department)
+        {
+            MongoClient dbClient = new MongoClient(_configuration.GetConnectionString("EmployeesAppCon"));
+
+            var filter = Builders<Department>.Filter.Eq("DepartmentId", department.DepartmentId);
+
+            var update = Builders<Department>.Update.Set("DepartmentName", department.DepartmentName);
+
+            dbClient.GetDatabase("testDB").GetCollection<Department>("Department").UpdateOne(filter, update);
+
+            return new JsonResult("Departamento atualizado");
+
+        }
     }
 }
