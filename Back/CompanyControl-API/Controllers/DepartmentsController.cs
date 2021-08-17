@@ -55,5 +55,18 @@ namespace CompanyControl_API.Controllers
             return new JsonResult("Departamento atualizado");
 
         }
+
+        [HttpDelete]
+        public JsonResult Delete(int id)
+        {
+            MongoClient dbClient = new MongoClient(_configuration.GetConnectionString("EmployeesAppCon"));
+
+            var filter = Builders<Department>.Filter.Eq("DepartmentId", id);
+
+            dbClient.GetDatabase("testDB").GetCollection<Department>("Department").DeleteOne(filter);
+
+            return new JsonResult("Departamento extinto");
+
+        }
     }
 }
