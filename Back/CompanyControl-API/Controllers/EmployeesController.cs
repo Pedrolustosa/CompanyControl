@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using CompanyControl_API.Models;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using System.IO;
+using System;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CompanyControl_API.Controllers
 {
@@ -10,10 +13,12 @@ namespace CompanyControl_API.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        public EmployeesController(IConfiguration configuration)
+         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _env;
+        public EmployeesController(IConfiguration configuration,IWebHostEnvironment env)
         {
             _configuration = configuration;
+            _env = env;
         }
 
         [HttpGet]
@@ -69,6 +74,30 @@ namespace CompanyControl_API.Controllers
 
             return new JsonResult("Departamento extinto");
 
+        }
+
+        [Route("SaveFile")]
+        [HttpPost]
+        public JsonResult SaveFile()
+        {
+            try
+            {
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
+
+                using(var stream=new FileStream(physicalPath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+
+                return new JsonResult(filename + " - " + "Imagem Salva");
+            }
+            catch (Exception)
+            {
+                return new JsonResult("anonymous.png");
+            }
         }
     }
 }
