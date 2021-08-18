@@ -56,7 +56,7 @@ namespace CompanyControl_API.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
             MongoClient dbClient = new MongoClient(_configuration.GetConnectionString("EmployeesAppCon"));

@@ -31,12 +31,12 @@ namespace CompanyControl_API.Controllers
         {
             MongoClient dbClient = new MongoClient(_configuration.GetConnectionString("EmployeesAppCon"));
 
-            int LastEmployeeId = dbClient.GetDatabase("testdb").GetCollection<Department>("Employee").AsQueryable().Count();
+            int LastEmployeeId = dbClient.GetDatabase("testDB").GetCollection<Department>("Employee").AsQueryable().Count();
             employee.EmployeeId = LastEmployeeId + 1;
 
             dbClient.GetDatabase("testDB").GetCollection<Employee>("Employee").InsertOne(employee);
 
-            return new JsonResult("Novo Empregado cadastrado");
+            return new JsonResult("Added Successfully");
 
         }
 
@@ -55,6 +55,19 @@ namespace CompanyControl_API.Controllers
             dbClient.GetDatabase("testDB").GetCollection<Employee>("Employee").UpdateOne(filter, update);
 
             return new JsonResult("Departamento atualizado");
+
+        }
+
+        [HttpDelete("{id}")]
+        public JsonResult Delete(int id)
+        {
+            MongoClient dbClient = new MongoClient(_configuration.GetConnectionString("EmployeesAppCon"));
+
+            var filter = Builders<Employee>.Filter.Eq("EmployeeId", id);
+
+            dbClient.GetDatabase("testDB").GetCollection<Employee>("Employee").DeleteOne(filter);
+
+            return new JsonResult("Departamento extinto");
 
         }
     }
