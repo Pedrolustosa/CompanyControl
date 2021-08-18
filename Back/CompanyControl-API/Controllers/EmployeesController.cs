@@ -39,5 +39,23 @@ namespace CompanyControl_API.Controllers
             return new JsonResult("Novo Empregado cadastrado");
 
         }
+
+        [HttpPut]
+        public JsonResult Put(Employee employee)
+        {
+            MongoClient dbClient = new MongoClient(_configuration.GetConnectionString("EmployeesAppCon"));
+
+            var filter = Builders<Employee>.Filter.Eq("EmployeeId", employee.EmployeeId);
+
+            var update = Builders<Employee>.Update.Set("EmployeeName", employee.EmployeeName)
+                                                  .Set("Department", employee.Department)
+                                                  .Set("DateOfJoining", employee.DateOfJoining)
+                                                  .Set("PhotoFileName", employee.PhotoFileName);
+
+            dbClient.GetDatabase("testDB").GetCollection<Employee>("Employee").UpdateOne(filter, update);
+
+            return new JsonResult("Departamento atualizado");
+
+        }
     }
 }
