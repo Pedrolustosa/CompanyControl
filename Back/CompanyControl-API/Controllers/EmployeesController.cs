@@ -25,5 +25,19 @@ namespace CompanyControl_API.Controllers
 
             return new JsonResult(dbList);
         }
+
+        [HttpPost]
+        public JsonResult Post(Employee employee)
+        {
+            MongoClient dbClient = new MongoClient(_configuration.GetConnectionString("EmployeesAppCon"));
+
+            int LastEmployeeId = dbClient.GetDatabase("testdb").GetCollection<Department>("Employee").AsQueryable().Count();
+            employee.EmployeeId = LastEmployeeId + 1;
+
+            dbClient.GetDatabase("testDB").GetCollection<Employee>("Employee").InsertOne(employee);
+
+            return new JsonResult("Novo Empregado cadastrado");
+
+        }
     }
 }
