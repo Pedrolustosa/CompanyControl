@@ -13,9 +13,9 @@ namespace CompanyControl_API.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-         private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
-        public EmployeesController(IConfiguration configuration,IWebHostEnvironment env)
+        public EmployeesController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
             _env = env;
@@ -87,12 +87,12 @@ namespace CompanyControl_API.Controllers
                 string filename = postedFile.FileName;
                 var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
 
-                using(var stream=new FileStream(physicalPath, FileMode.Create))
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
                 {
                     postedFile.CopyTo(stream);
                 }
 
-                return new JsonResult(filename + " - " + "Imagem Salva");
+                return new JsonResult(filename);
             }
             catch (Exception)
             {

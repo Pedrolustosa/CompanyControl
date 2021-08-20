@@ -1,6 +1,6 @@
 <button type="button" class="btn btn-primary m-2 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal"
   (click)="addClick()">
-  Novo Subordinado
+  Novo Empregado
 </button>
 
 <table class="table table-striped">
@@ -81,21 +81,21 @@
               </select>
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text">DOJ</span>
+              <span class="input-group-text">Data de contratação</span>
               <input type="date" class="form-control" [(ngModel)]="DateOfJoining">
             </div>
           </div>
           <div class="p-2 w-50 bd-highlight">
             <img width="250px" height="250px" [src]="PhotoPath+PhotoFileName" />
-            <input class="m-2" type="file" (change)="imageUpload($event)">
+            <input class="m-2" type="file" (change)="imageUpload($event)" placeholder="Foto">
           </div>
         </div>
         <button type="button" (click)="createClick()" *ngIf="EmployeeId==0" class="btn btn-primary">
-          Create
+          Criar
         </button>
 
         <button type="button" (click)="updateClick()" *ngIf="EmployeeId!=0" class="btn btn-primary">
-          Update
+          Editar
         </button>
 
       </div>

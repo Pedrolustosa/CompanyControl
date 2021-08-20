@@ -12,16 +12,16 @@ export class EmployeeComponent implements OnInit {
 
   constructor(private http:HttpClient) { }
 
-  departments:any=[];
-  employees:any=[];
+  departments: any = [];
+  employees: any = [];
 
-  modalTitle ="";
+  modalTitle = "";
   EmployeeId = 0;
   EmployeeName = "";
-  Department="";
-  DateOfJoining="";
-  PhotoFileName="anonymous.png";
-  PhotoPath=environment.PHOTO_URL;
+  Department = "";
+  DateOfJoining = "";
+  PhotoFileName = "anonymous.png";
+  PhotoPath = environment.PHOTO_URL;
 
   ngOnInit(): void {
     this.refreshList();
@@ -40,21 +40,21 @@ export class EmployeeComponent implements OnInit {
   }
 
   addClick(){
-    this.modalTitle="Novo subordinado";
-    this.EmployeeId=0;
-    this.EmployeeName="";
-    this.Department="";
-    this.DateOfJoining="";
-    this.PhotoFileName="anonymous.png";
+    this.modalTitle = "Novo Empregado";
+    this.EmployeeId = 0;
+    this.EmployeeName = "";
+    this.Department = "";
+    this.DateOfJoining = "";
+    this.PhotoFileName ="anonymous.png";
   }
 
   editClick(emp:any){
-    this.modalTitle="Atulizar dados de subordinado";
-    this.EmployeeId=emp.EmployeeId;
-    this.EmployeeName=emp.EmployeeName;
-    this.Department=emp.Department;
-    this.DateOfJoining=emp.DateOfJoining;
-    this.PhotoFileName=emp.PhotoFileName;
+    this.modalTitle = "Edit Employee";
+    this.EmployeeId = emp.EmployeeId;
+    this.EmployeeName = emp.EmployeeName;
+    this.Department = emp.Department;
+    this.DateOfJoining = emp.DateOfJoining;
+    this.PhotoFileName = emp.PhotoFileName;
   }
 
   createClick(){
@@ -89,16 +89,14 @@ export class EmployeeComponent implements OnInit {
   }
 
   deleteClick(id:any){
-    if(confirm('Você deseja mesmo excluir os dados deste subordinado ?')){
+    if(confirm('Você deseja mesmo excluir ?')){
     this.http.delete(environment.API_URL+'employees/'+id)
     .subscribe(res=>{
-      alert(`Subordinado ${this.EmployeeName} foi desligado`);
       alert(res.toString());
       this.refreshList();
     });
     }
   }
-
 
   imageUpload(event:any){
     var file=event.target.files[0];
